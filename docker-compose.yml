@@ -1,0 +1,24 @@
+version: "3"
+services:
+  web:
+    build: .
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0 -p 3000"
+    volumes:
+      - .:/usr/src/myapp:cached
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+  db:
+    image: mysql:8.0.31
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+volumes:
+  db_data:

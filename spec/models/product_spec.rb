@@ -5,6 +5,12 @@ RSpec.describe Product, type: :model do
     expect(build(:product)).to be_valid
   end
 
+  describe "associations" do
+    let(:product) { build(:product) }
+
+    it { expect(product).to belong_to(:user) }
+  end
+
   describe "validations" do
     let(:product) { build(:product) }
 

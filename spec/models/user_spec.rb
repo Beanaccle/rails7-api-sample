@@ -5,6 +5,12 @@ RSpec.describe User, type: :model do
     expect(build(:user)).to be_valid
   end
 
+  describe "associations" do
+    let(:user) { build(:user) }
+
+    it { expect(user).to have_many(:products).dependent(:destroy) }
+  end
+
   describe "validations" do
     let(:user) { build(:user) }
 

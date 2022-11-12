@@ -15,6 +15,21 @@ module Api
         render json: { data: { message: e.message } }, status: :unprocessable_entity
       end
 
+      def update
+        product = current_user.products.find(params[:id])
+        Products::Update.new(current_user, product).call(product_params)
+
+        render json: {
+          data: {
+            message: "#{product.name} updated",
+          }
+        }, status: :ok
+      rescue ActiveRecord::RecordInvalid => e
+        render json: { data: { message: e.message } }, status: :unprocessable_entity
+      rescue ActiveRecord::RecordNotFound
+        render status: :not_found
+      end
+
       private
 
       def product_params

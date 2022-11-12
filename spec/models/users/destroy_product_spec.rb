@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Products::DestroyProduct do
+RSpec.describe Users::DestroyProduct do
   describe "#call" do
     let(:user) { create(:user) }
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Products::UpdateProduct do
+RSpec.describe Users::UpdateProduct do
   describe "#call" do
     let(:user) { create(:user) }
 

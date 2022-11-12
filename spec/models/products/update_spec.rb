@@ -8,11 +8,18 @@ RSpec.describe Products::Update do
       let(:product) { create(:product, user: user, name: "test", price: 1_000) }
 
       context "with valid params" do
-        it "product is updated" do
-          valid_params = { name: "update_test", price: 100_000 }
+        let(:valid_params) do
+          { name: "update_test", price: 100_000 }
+        end
 
+        it "returns product instance" do
+          expect(described_class.new(user).call(product.id, valid_params)).to be_a(Product)
+        end
+
+        it "product is updated" do
           expect {
-            described_class.new(user, product).call(valid_params)
+            described_class.new(user).call(product.id, valid_params)
+            product.reload
           }.to change(product, :name).from("test").to("update_test")
           .and change(product, :price).from(1_000).to(100_000)
         end
@@ -24,7 +31,7 @@ RSpec.describe Products::Update do
           invalid_params = { name: "", price: 100_000 }
 
           expect {
-            described_class.new(user, product).call(invalid_params)
+            described_class.new(user).call(product.id, invalid_params)
           }.to raise_error(ActiveRecord::RecordInvalid)
         end
       end
@@ -39,7 +46,7 @@ RSpec.describe Products::Update do
           valid_params = { name: "update_test", price: 100_000 }
 
           expect {
-            described_class.new(user, product).call(valid_params)
+            described_class.new(user).call(product.id, valid_params)
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end

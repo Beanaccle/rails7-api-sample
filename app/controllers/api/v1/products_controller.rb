@@ -16,8 +16,7 @@ module Api
       end
 
       def update
-        product = current_user.products.find(params[:id])
-        Products::Update.new(current_user, product).call(product_params)
+        product = Products::Update.new(current_user).call(params[:id], product_params)
 
         render json: {
           data: {

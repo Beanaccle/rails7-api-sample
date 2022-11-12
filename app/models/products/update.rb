@@ -1,15 +1,13 @@
 module Products
   class Update
-    def initialize(user, product)
+    def initialize(user)
       @user = user
-      @product = product
     end
 
-    def call(params)
-      # NOTE: 自分の商品ではない場合、更新できる商品はない
-      raise ActiveRecord::RecordNotFound if @user != @product.user
-
-      @product.update!(params)
+    def call(product_id, params)
+      product = @user.products.find(product_id)
+      product.update!(params)
+      product
     end
   end
 end

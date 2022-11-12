@@ -11,7 +11,6 @@ RSpec.describe User, type: :model do
     it { expect(user).to validate_presence_of(:email) }
     it { expect(user).to validate_uniqueness_of(:email).scoped_to(:provider).case_insensitive }
     it { expect(user).to validate_presence_of(:password) }
-    it { expect(user).to validate_presence_of(:points) }
     it { expect(user).to validate_numericality_of(:points).only_integer.is_greater_than_or_equal_to(0) }
   end
 end

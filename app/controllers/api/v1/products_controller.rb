@@ -4,7 +4,7 @@ module Api
       before_action :authenticate_user!
 
       def create
-        product = Products::Create.new(current_user).call(product_params)
+        product = Users::CreateProduct.new(current_user).call(product_params)
 
         render json: {
           data: {

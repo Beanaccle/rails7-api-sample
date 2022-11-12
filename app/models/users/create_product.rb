@@ -1,5 +1,5 @@
-module Products
-  class Create
+module Users
+  class CreateProduct
     def initialize(user)
       @user = user
     end

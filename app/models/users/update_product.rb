@@ -1,5 +1,5 @@
 module Products
-  class Update
+  class UpdateProduct
     def initialize(user)
       @user = user
     end

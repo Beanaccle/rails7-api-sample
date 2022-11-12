@@ -157,4 +157,46 @@ RSpec.describe "/api/v1/products", type: :request do
       end
     end
   end
+
+  describe "DELETE /api/v1/products/:id" do
+    let!(:product) { create(:product) }
+
+    context "when legged in" do
+      let!(:auth_headers) { user.create_new_auth_token }
+
+      context "with own product" do
+        let(:user) { product.user }
+
+        it "returns 204 no content" do
+          delete "/api/v1/products/#{product.id}", headers: auth_headers
+
+          expect(response).to have_http_status(:no_content)
+        end
+
+        it "product is destroyed" do
+          expect {
+            delete "/api/v1/products/#{product.id}", headers: auth_headers
+          }.to change(Product, :count).by(-1)
+        end
+      end
+
+      context "with not own product" do
+        let!(:user) { create(:user, email: "notown@example.com" ) }
+
+        it "returns 403 not found" do
+          delete "/api/v1/products/#{product.id}", headers: auth_headers
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    context "when logged out" do
+      it "returns 401 unauthorized" do
+        delete "/api/v1/products/#{product.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

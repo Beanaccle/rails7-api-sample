@@ -29,6 +29,14 @@ module Api
         render status: :not_found
       end
 
+      def destroy
+        Products::Destroy.new(current_user).call(params[:id])
+
+        render status: :no_content
+      rescue ActiveRecord::RecordNotFound
+        render status: :not_found
+      end
+
       private
 
       def product_params

@@ -18,6 +18,12 @@ describe "/auth", type: :request do
           post "/auth", params: valid_params
         }.to change(User, :count).by(1)
       end
+
+      it "created user has 10_000 points" do
+        post "/auth", params: valid_params
+
+        expect(User.last.points).to eq(10_000)
+      end
     end
 
     context "with invalid params" do

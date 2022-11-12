@@ -1,5 +1,5 @@
-module Products
-  class Destroy
+module Users
+  class DestroyProduct
     def initialize(user)
       @user = user
     end

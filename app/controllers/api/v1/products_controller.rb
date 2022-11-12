@@ -30,7 +30,7 @@ module Api
       end
 
       def destroy
-        Products::Destroy.new(current_user).call(params[:id])
+        Users::DestroyProduct.new(current_user).call(params[:id])
 
         render status: :no_content
       rescue ActiveRecord::RecordNotFound

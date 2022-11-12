@@ -11,7 +11,7 @@ RSpec.describe "/api/v1/products", type: :request do
           { product: { name: "test", price: 1_000 } }
         end
 
-        it "returns 200 ok" do
+        it "returns 201 created" do
           post "/api/v1/products", params: valid_params, headers: auth_headers
 
           expect(response).to have_http_status(:created)
@@ -50,7 +50,7 @@ RSpec.describe "/api/v1/products", type: :request do
           { product: { name: "test", price: 1_000 } }
         end
 
-        it "returns 200 ok" do
+        it "returns 401 unauthorized" do
           post "/api/v1/products", params: valid_params
 
           expect(response).to have_http_status(:unauthorized)
@@ -143,7 +143,7 @@ RSpec.describe "/api/v1/products", type: :request do
           { product: { name: "update_test", price: 100_000 } }
         end
 
-        it "returns 200 ok" do
+        it "returns 401 unauthorized" do
           put "/api/v1/products/#{product.id}", params: valid_params
 
           expect(response).to have_http_status(:unauthorized)

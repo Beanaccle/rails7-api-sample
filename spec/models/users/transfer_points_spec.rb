@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Users::PointPayment do
+RSpec.describe Users::TransferPoints do
   describe '#call' do
     let(:buyer) { create(:user, email: 'buyer@example.com', points: 100_000) }
     let(:seller) { create(:user, email: 'seller@example.com') }

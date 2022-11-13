@@ -10,7 +10,7 @@ module Users
       product = Product.find(product_id)
 
       ActiveRecord::Base.transaction do
-        PointPayment.new(@user).call(product.user, product.price)
+        TransferPoints.new(@user).call(product.user, product.price)
         ChangeProductOwner.new(@user).call(product)
         CreatePaymentHistory.new(@user).call(product)
       end

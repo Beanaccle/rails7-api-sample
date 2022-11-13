@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Users
-  class PointPayment
+  class TransferPoints
     def initialize(buyer)
       @buyer = buyer
     end

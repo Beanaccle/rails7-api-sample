@@ -11,6 +11,7 @@ module Users
 
       ActiveRecord::Base.transaction do
         PointPayment.new(@user).call(product.user, product.price)
+        ChangeProductOwner.new(@user).call(product)
         CreatePaymentHistory.new(@user).call(product)
       end
 

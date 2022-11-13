@@ -17,6 +17,13 @@ RSpec.describe Users::PurchaseProduct do
                                      .and change(seller, :points).from(0).to(50_000)
       end
 
+      it 'product owner is changed' do
+        expect do
+          described_class.new(buyer).call(product.id)
+          product.reload
+        end.to change(product, :user).from(seller).to(buyer)
+      end
+
       it 'payment_history is created' do
         expect do
           described_class.new(buyer).call(product.id)
@@ -39,6 +46,14 @@ RSpec.describe Users::PurchaseProduct do
 
           expect(buyer.reload.points).to eq(100_000)
           expect(seller.reload.points).to eq(0)
+        end
+
+        it 'product owner is not changed', :aggregate_failures do
+          expect do
+            described_class.new(buyer).call(product.id)
+          end.to raise_error(ActiveRecord::RecordInvalid)
+
+          expect(product.reload.user).to eq(seller)
         end
       end
     end

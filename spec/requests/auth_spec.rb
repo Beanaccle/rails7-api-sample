@@ -66,7 +66,6 @@ RSpec.describe '/auth' do
         expect do
           post '/auth/sign_in', params: valid_params
           user.reload
-          binding.break
         end.to change(user, :tokens).from({})
       end
     end

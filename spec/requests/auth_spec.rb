@@ -47,4 +47,48 @@ RSpec.describe '/auth' do
       end
     end
   end
+
+  describe "POST /auth/sign_in" do
+    let(:user) { create(:user) }
+
+    context 'with valid params' do
+      let(:valid_params) do
+        { email: user.email, password: user.password }
+      end
+
+      it 'returns 200 ok' do
+        post '/auth/sign_in', params: valid_params
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'tokens updated' do
+        expect do
+          post '/auth/sign_in', params: valid_params
+          user.reload
+          binding.break
+        end.to change(user, :tokens).from({})
+      end
+    end
+
+    context 'with invalid params' do
+      let(:invalid_params) do
+        # NOTE: passwordが空
+        { email: user.email, password: '' }
+      end
+
+      it 'returns 422 unprocessable_entity' do
+        post '/auth/sign_in', params: invalid_params
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'tokens not updated' do
+        expect do
+          post '/auth/sign_in', params: invalid_params
+          user.reload
+        end.not_to change(user, :tokens)
+      end
+    end
+  end
 end

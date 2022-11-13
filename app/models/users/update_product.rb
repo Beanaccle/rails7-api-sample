@@ -1,4 +1,4 @@
-module Products
+module Users
   class UpdateProduct
     def initialize(user)
       @user = user

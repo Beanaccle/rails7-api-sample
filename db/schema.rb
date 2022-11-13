@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_12_122052) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_13_013310) do
+  create_table "payment_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "seller_id", null: false
+    t.bigint "buyer_id", null: false
+    t.string "product_name", null: false
+    t.integer "product_price", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["buyer_id"], name: "index_payment_histories_on_buyer_id"
+    t.index ["product_id"], name: "index_payment_histories_on_product_id"
+    t.index ["seller_id"], name: "index_payment_histories_on_seller_id"
+  end
+
   create_table "products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.integer "price", null: false
@@ -33,5 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_122052) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "payment_histories", "products"
+  add_foreign_key "payment_histories", "users", column: "buyer_id"
+  add_foreign_key "payment_histories", "users", column: "seller_id"
   add_foreign_key "products", "users"
 end

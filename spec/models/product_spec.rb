@@ -9,6 +9,7 @@ RSpec.describe Product, type: :model do
     let(:product) { build(:product) }
 
     it { expect(product).to belong_to(:user) }
+    it { expect(product).to have_many(:payment_histories).dependent(:nullify) }
   end
 
   describe "validations" do

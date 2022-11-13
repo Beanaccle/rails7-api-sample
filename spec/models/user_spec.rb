@@ -9,6 +9,8 @@ RSpec.describe User, type: :model do
     let(:user) { build(:user) }
 
     it { expect(user).to have_many(:products).dependent(:destroy) }
+    it { expect(user).to have_many(:seller_payment_histories).with_foreign_key(:seller_id).dependent(:restrict_with_exception) }
+    it { expect(user).to have_many(:buyer_payment_histories).with_foreign_key(:buyer_id).dependent(:restrict_with_exception) }
   end
 
   describe "validations" do

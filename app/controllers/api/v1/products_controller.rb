@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class ProductsController < ApplicationController
@@ -8,7 +10,7 @@ module Api
 
         render json: {
           data: {
-            message: "#{product.name} created",
+            message: "#{product.name} created"
           }
         }, status: :created
       rescue ActiveRecord::RecordInvalid => e
@@ -20,7 +22,7 @@ module Api
 
         render json: {
           data: {
-            message: "#{product.name} updated",
+            message: "#{product.name} updated"
           }
         }, status: :ok
       rescue ActiveRecord::RecordInvalid => e

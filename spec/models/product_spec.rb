@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Product, type: :model do
-  it "has a valid factory" do
+RSpec.describe Product do
+  it 'has a valid factory' do
     expect(build(:product)).to be_valid
   end
 
-  describe "associations" do
+  describe 'associations' do
     let(:product) { build(:product) }
 
     it { expect(product).to belong_to(:user) }
     it { expect(product).to have_many(:payment_histories).dependent(:nullify) }
   end
 
-  describe "validations" do
+  describe 'validations' do
     let(:product) { build(:product) }
 
     it { expect(product).to validate_presence_of(:name) }

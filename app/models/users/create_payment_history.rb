@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Users
   class CreatePaymentHistory
     def initialize(buyer)
@@ -9,7 +11,7 @@ module Users
         buyer: @buyer,
         seller: product.user,
         product_name: product.name,
-        product_price: product.price,
+        product_price: product.price
       )
     end
   end

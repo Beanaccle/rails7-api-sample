@@ -1,27 +1,29 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Users::DestroyProduct do
-  describe "#call" do
+  describe '#call' do
     let(:user) { create(:user) }
 
     context "when user's product" do
-      let!(:product) { create(:product, user: user) }
+      let!(:product) { create(:product, user:) }
 
-      it "product is destroyed" do
-        expect {
+      it 'product is destroyed' do
+        expect do
           described_class.new(user).call(product.id)
-        }.to change(Product, :count).by(-1)
+        end.to change(Product, :count).by(-1)
       end
     end
 
-    context "when unrelated product" do
-      let(:unrelated_user) { create(:user, email: "unrelated@example.com") }
+    context 'when unrelated product' do
+      let(:unrelated_user) { create(:user, email: 'unrelated@example.com') }
       let!(:product) { create(:product, user: unrelated_user) }
 
-      it "raise ActiveRecord::RecordNotFound" do
-        expect {
+      it 'raise ActiveRecord::RecordNotFound' do
+        expect do
           described_class.new(user).call(product.id)
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

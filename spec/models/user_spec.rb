@@ -1,19 +1,31 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
-  it "has a valid factory" do
+RSpec.describe User do
+  it 'has a valid factory' do
     expect(build(:user)).to be_valid
   end
 
-  describe "associations" do
+  describe 'associations' do
     let(:user) { build(:user) }
 
     it { expect(user).to have_many(:products).dependent(:destroy) }
-    it { expect(user).to have_many(:seller_payment_histories).with_foreign_key(:seller_id).dependent(:restrict_with_exception) }
-    it { expect(user).to have_many(:buyer_payment_histories).with_foreign_key(:buyer_id).dependent(:restrict_with_exception) }
+
+    it {
+      expect(user).to have_many(:seller_payment_histories).with_foreign_key(:seller_id)
+                                                          .inverse_of(:seller)
+                                                          .dependent(:restrict_with_exception)
+    }
+
+    it {
+      expect(user).to have_many(:buyer_payment_histories).with_foreign_key(:buyer_id)
+                                                         .inverse_of(:buyer)
+                                                         .dependent(:restrict_with_exception)
+    }
   end
 
-  describe "validations" do
+  describe 'validations' do
     let(:user) { build(:user) }
 
     it { expect(user).to validate_presence_of(:email) }

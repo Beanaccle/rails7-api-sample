@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Users
   class Build
     DEFAULT_POINTS = 10_000
